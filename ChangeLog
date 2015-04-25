@@ -1,0 +1,18 @@
+(add new changes on top of this file)
+
+2012-02-24 Franz Holzinger  <franz@ttproducts.de>
+
+	* Support for TYPO3 4.5.x
+
+2010-04-20 Franz Holzinger  <franz@ttproducts.de>
+
+	* Support for TYPO3 4.3.x and 4.4.x.
+	* enhancement for userFunc: add hook to support the inclusion of methods in TypoScript conditions where the code is the PHP of an extension
+
+2010-04-20 Franz Holzinger  <franz@ttproducts.de>
+
+	* The current version for matchcondition can only be used until TYPO3 4.2.x.
+
+2009-04-28 Franz Holzinger  <franz@ttproducts.de>
+
+	* Initial release built from class.t3lib_extmgm.php 5333 2009-04-20
