@@ -1,4 +1,6 @@
 <?php
+namespace JambageCom\Patch10011\Utility;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -97,7 +99,7 @@
  * @package TYPO3
  * @subpackage t3lib
  */
-final class patch10011_extMgm {
+final class ExtensionManagementUtility {
 	protected static $extensionKeyMap;
 
 
