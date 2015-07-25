@@ -19,6 +19,8 @@ namespace JambageCom\Patch10011\Frontend\Configuration\TypoScript\ConditionMatch
  * Used with the TypoScript parser.
  * Matches browserinfo, IPnumbers for use with templates
  *
+ * $Id$
+ *
  * @author Kasper Skårhøj <kasperYYYY@typo3.com>
  */
 
