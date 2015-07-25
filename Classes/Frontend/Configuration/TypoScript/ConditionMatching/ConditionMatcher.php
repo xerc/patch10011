@@ -41,6 +41,11 @@ class ConditionMatcher extends \TYPO3\CMS\Frontend\Configuration\TypoScript\Cond
 	 */
 	protected function evaluateConditionCommon($key, $value) {
 		if (GeneralUtility::inList('browser,version,system,useragent', strtolower($key))) {
+			if (version_compare(TYPO3_version, '7.0.0', '>=')) {
+				GeneralUtility::deprecationLog(
+					'Usage of client related conditions (browser, device, version, system, useragent) is deprecated since 7.0.'
+				);
+			}
 			$browserInfo = $this->getBrowserInfo(GeneralUtility::getIndpEnv('HTTP_USER_AGENT'));
 		}
 		$keyParts = GeneralUtility::trimExplode('|', $key);
