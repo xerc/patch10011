@@ -1,5 +1,9 @@
 (add new changes on top of this file)
 
+2017-03-21 Franz Holzinger  <franz@ttproducts.de>
+
+    * Support for TYPO3 7.x.x
+
 2015-07-25 Franz Holzinger  <franz@ttproducts.de>
 
 	* Support for TYPO3 7.4.x

@@ -29,7 +29,6 @@ namespace JambageCom\Patch10011\Utility;
 /**
  * Contains a class with Extension Management functions
  *
- * $Id$
  * Revised for TYPO3 3.6 July/2003 by Kasper Skårhøj
  *
  * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
@@ -93,11 +92,11 @@ namespace JambageCom\Patch10011\Utility;
  * Extension Management functions
  *
  * This class is never instantiated, rather the methods inside is called as functions like
- *		 patch10011_extMgm::isLoaded('my_extension');
+ * JambageCom\Patch10011\Utility\ExtensionManagementUtility::isLoaded('my_extension');
  *
  * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
  * @package TYPO3
- * @subpackage t3lib
+ * @subpackage patch10011
  */
 final class ExtensionManagementUtility {
 	protected static $extensionKeyMap;
@@ -1835,4 +1834,3 @@ $TYPO3_LOADED_EXT = unserialize(stripslashes(\'' . addslashes(serialize($extensi
 	}
 }
 
-?>
