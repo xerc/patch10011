@@ -1,5 +1,9 @@
 (add new changes on top of this file)
 
+2018-01-09 Franz Holzinger  <franz@ttproducts.de>
+
+    * Support for TYPO3 8.x.x
+
 2017-03-21 Franz Holzinger  <franz@ttproducts.de>
 
     * Support for TYPO3 7.x.x
@@ -19,7 +23,7 @@
 2010-04-20 Franz Holzinger  <franz@ttproducts.de>
 
 	* Support for TYPO3 4.3.x and 4.4.x.
-	* enhancement for userFunc: Add hook to support the inclusion of methods in TypoScript conditions where the code is the PHP of an extension. A userFunc allows multiple parameters. The return value of the userFunc may be checked against string values.
+	* enhancement for userFunc: Add hook to support the inclusion of methods in TypoScript conditions where the code is the PHP of an extension. A userFunc allows multiple parameters. The return value of the userFunc may be che+cked against string values.
 
 2010-04-20 Franz Holzinger  <franz@ttproducts.de>
 

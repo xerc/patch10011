@@ -52,16 +52,6 @@ class ConditionMatcher extends \TYPO3\CMS\Frontend\Configuration\TypoScript\Cond
         }
         $keyParts = GeneralUtility::trimExplode('|', $key);
         switch ($keyParts[0]) {
-            case 'applicationContext':
-                $values = GeneralUtility::trimExplode(',', $value, true);
-                $currentApplicationContext = GeneralUtility::getApplicationContext();
-                foreach ($values as $applicationContext) {
-                    if ($this->searchStringWildcard($currentApplicationContext, $applicationContext)) {
-                        return true;
-                    }
-                }
-                return false;
-                break;
             case 'browser':
                 $values = GeneralUtility::trimExplode(',', $value, true);
                 // take all identified browsers into account, eg chrome deliver
@@ -137,130 +127,6 @@ class ConditionMatcher extends \TYPO3\CMS\Frontend\Configuration\TypoScript\Cond
                 } else {
                     return false;
                 }
-                break;
-            case 'language':
-                if (GeneralUtility::getIndpEnv('HTTP_ACCEPT_LANGUAGE') === $value) {
-                    return true;
-                }
-                $values = GeneralUtility::trimExplode(',', $value, true);
-                foreach ($values as $test) {
-                    if (preg_match('/^\\*.+\\*$/', $test)) {
-                        $allLanguages = preg_split('/[,;]/', GeneralUtility::getIndpEnv('HTTP_ACCEPT_LANGUAGE'));
-                        if (in_array(substr($test, 1, -1), $allLanguages)) {
-                            return true;
-                        }
-                    } elseif (GeneralUtility::getIndpEnv('HTTP_ACCEPT_LANGUAGE') == $test) {
-                        return true;
-                    }
-                }
-                return false;
-                break;
-            case 'IP':
-                if ($value === 'devIP') {
-                    $value = trim($GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask']);
-                }
-
-                return (bool)GeneralUtility::cmpIP(GeneralUtility::getIndpEnv('REMOTE_ADDR'), $value);
-                break;
-            case 'hostname':
-                return (bool)GeneralUtility::cmpFQDN(GeneralUtility::getIndpEnv('REMOTE_ADDR'), $value);
-                break;
-            case 'hour':
-            case 'minute':
-            case 'month':
-            case 'year':
-            case 'dayofweek':
-            case 'dayofmonth':
-            case 'dayofyear':
-                // In order to simulate time properly in templates.
-                $theEvalTime = $GLOBALS['SIM_EXEC_TIME'];
-                switch ($key) {
-                    case 'hour':
-                        $theTestValue = date('H', $theEvalTime);
-                        break;
-                    case 'minute':
-                        $theTestValue = date('i', $theEvalTime);
-                        break;
-                    case 'month':
-                        $theTestValue = date('m', $theEvalTime);
-                        break;
-                    case 'year':
-                        $theTestValue = date('Y', $theEvalTime);
-                        break;
-                    case 'dayofweek':
-                        $theTestValue = date('w', $theEvalTime);
-                        break;
-                    case 'dayofmonth':
-                        $theTestValue = date('d', $theEvalTime);
-                        break;
-                    case 'dayofyear':
-                        $theTestValue = date('z', $theEvalTime);
-                        break;
-                }
-                $theTestValue = (int)$theTestValue;
-                // comp
-                $values = GeneralUtility::trimExplode(',', $value, true);
-                foreach ($values as $test) {
-                    if (\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($test)) {
-                        $test = '=' . $test;
-                    }
-                    if ($this->compareNumber($test, $theTestValue)) {
-                        return true;
-                    }
-                }
-                return false;
-                break;
-            case 'compatVersion':
-                return GeneralUtility::compat_version($value);
-                break;
-            case 'loginUser':
-                if ($this->isUserLoggedIn()) {
-                    $values = GeneralUtility::trimExplode(',', $value, true);
-                    foreach ($values as $test) {
-                        if ($test == '*' || (string)$this->getUserId() === (string)$test) {
-                            return true;
-                        }
-                    }
-                } elseif ($value === '') {
-                    return true;
-                }
-                return false;
-                break;
-            case 'page':
-                if ($keyParts[1]) {
-                    $page = $this->getPage();
-                    $property = $keyParts[1];
-                    if (!empty($page) && isset($page[$property]) && (string)$page[$property] === (string)$value) {
-                        return true;
-                    }
-                }
-                return false;
-                break;
-            case 'globalVar':
-                $values = GeneralUtility::trimExplode(',', $value, true);
-                foreach ($values as $test) {
-                    $point = strcspn($test, '!=<>');
-                    $theVarName = substr($test, 0, $point);
-                    $nv = $this->getVariable(trim($theVarName));
-                    $testValue = substr($test, $point);
-                    if ($this->compareNumber($testValue, $nv)) {
-                        return true;
-                    }
-                }
-                return false;
-                break;
-            case 'globalString':
-                $values = GeneralUtility::trimExplode(',', $value, true);
-                foreach ($values as $test) {
-                    $point = strcspn($test, '=');
-                    $theVarName = substr($test, 0, $point);
-                    $nv = (string)$this->getVariable(trim($theVarName));
-                    $testValue = substr($test, $point + 1);
-                    if ($this->searchStringWildcard($nv, trim($testValue))) {
-                        return true;
-                    }
-                }
-                return false;
                 break;
             case 'userFunc':
                 $values = preg_split('/\(|\)/', $value);
@@ -345,8 +211,12 @@ class ConditionMatcher extends \TYPO3\CMS\Frontend\Configuration\TypoScript\Cond
 
                 return $result;
             break;
+
+            default:
+                return parent::evaluateConditionCommon($key, $value);
+            break;
         }
         return NULL;
     }
-
 }
+
