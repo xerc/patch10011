@@ -27,10 +27,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ConditionMatcher extends \TYPO3\CMS\Frontend\Configuration\TypoScript\ConditionMatching\ConditionMatcher {
 
-	protected function evaluateCondition($string) {
-		$result = parent::evaluateCondition($string);
-		return $result;
-	}
+    protected function evaluateCondition($string) {
+        $result = parent::evaluateCondition($string);
+        return $result;
+    }
 
     /**
      * Evaluates a TypoScript condition given as input, eg. "[applicationContext = Production][...(other condition)...]"
@@ -154,11 +154,14 @@ class ConditionMatcher extends \TYPO3\CMS\Frontend\Configuration\TypoScript\Cond
                         $i++;
                     }
 
-                    foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['patch10011']['includeLibs'] as $classRef) {
+                    foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['patch10011']['includeLibs'] as $classRef) {                    
                         $classRefParts = explode(':&', $classRef);
 
-                        if ($classRefParts[1] == $funcNameParts[0]) {
-                            $hookObj= GeneralUtility::getUserObj($classRef);
+                        if (
+                            $classRefParts[0] == $funcNameParts[0] || // namespace variant
+                            $classRefParts[1] == $funcNameParts[0]
+                        ) {
+                            $hookObj= GeneralUtility::makeInstance($classRef);
                             if (method_exists($hookObj, 'init')) {
                                 $hookObj->init($key, $value);
                             }
@@ -216,7 +219,7 @@ class ConditionMatcher extends \TYPO3\CMS\Frontend\Configuration\TypoScript\Cond
                 return parent::evaluateConditionCommon($key, $value);
             break;
         }
-        return NULL;
+        return null;
     }
 }
 

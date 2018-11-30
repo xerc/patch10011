@@ -1,5 +1,11 @@
 (add new changes on top of this file)
 
+2018-11-30 Franz Holzinger  <franz@ttproducts.de>
+
+    * Support for namespaces in the userFunc hook
+    * Rename the extension title in order to explain that the userFunc is also enhanced by parameters and a return value.
+    * add a composer.json file
+
 2018-01-09 Franz Holzinger  <franz@ttproducts.de>
 
     * Support for TYPO3 8.x.x
