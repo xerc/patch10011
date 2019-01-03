@@ -156,16 +156,22 @@ class ConditionMatcher extends \TYPO3\CMS\Frontend\Configuration\TypoScript\Cond
 
                     foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['patch10011']['includeLibs'] as $classRef) {                    
                         $classRefParts = explode(':&', $classRef);
+                        $className = $funcNameParts['0'];
 
                         if (
-                            $classRefParts[0] == $funcNameParts[0] || // namespace variant
-                            $classRefParts[1] == $funcNameParts[0]
+                            $classRefParts['0'] == $className || // namespace variant
+                            $classRefParts['1'] == $className    // variant with ':&'
                         ) {
-                            $hookObj= GeneralUtility::makeInstance($classRef);
+                            $generalClassName = $classRef;
+                            if ($classRefParts['1'] == $className) { // variant with ':&'
+                                $generalClassName = $className;
+                            }
+                            $hookObj= GeneralUtility::makeInstance($generalClassName);
                             if (method_exists($hookObj, 'init')) {
                                 $hookObj->init($key, $value);
                             }
-                            if (method_exists($hookObj, $funcNameParts[1])) {
+
+                            if (method_exists($hookObj, $funcNameParts['1'])) {
                                 $result = GeneralUtility::callUserFunction($funcName, $funcValue, $this, '');
                                 return $result;
                             }

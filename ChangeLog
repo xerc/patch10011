@@ -1,5 +1,10 @@
 (add new changes on top of this file)
 
+2019-01-03 Franz Holzinger  <franz@ttproducts.de>
+    * bugfix for TYPO3 8.x.x: Uncaught TYPO3 Exception
+Class EXT:tt_products/hooks/class.tx_ttproducts_match_condition.php:&tx_ttproducts_match_condition not found. Add support for the older class hooks.
+    * TYPO3 7.2 needs the array indexes in the string format.
+
 2018-11-30 Franz Holzinger  <franz@ttproducts.de>
 
     * Support for namespaces in the userFunc hook
