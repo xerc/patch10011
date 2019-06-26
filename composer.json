@@ -1,0 +1,41 @@
+{
+  "name": "jambagecom/patch10011",
+  "type": "typo3-cms-extension",
+  "description": "TypoScript Condition userFunc enhancements",
+  "keywords": [
+    "Typoscript",
+    "condition",
+    "tt_products"
+  ],
+  "support": {
+    "issues": "https://github.com/franzholz/patch10011/issues"
+  },
+  "homepage": "https://jambage.com",
+  "authors": [
+    {
+      "name": "Franz Holzinger",
+      "role": "Developer",
+      "homepage": "https://ttproducts.de"
+    }
+  ],
+  "license": [
+    "GPL-2.0+"
+  ],
+  "require": {
+    "typo3/cms-core": ">=6.2.0,<8.99.99"
+  },
+  "autoload": {
+    "psr-4": {
+      "JambageCom\\Patch10011\\": "Classes"
+    }
+  },
+  "replace": {
+    "patch10011": "self.version",
+    "typo3-ter/patch10011": "self.version"
+  },
+  "extra": {
+    "typo3/cms": {
+      "extension-key": "patch10011"
+    }
+  }
+}
