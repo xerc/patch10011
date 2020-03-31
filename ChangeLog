@@ -1,4 +1,6 @@
-(add new changes on top of this file)
+2020-03-31 Franz Holzinger <franz@ttproducts.de>
+    * modifications to composer.json
+    * Support for TYPO3 9.5
 
 2019-06-26 Franz Holzinger  <franz@ttproducts.de>
     * add the namespaces for userFunc to the documentation
