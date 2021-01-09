@@ -1,3 +1,9 @@
+
+
+
+2020-01-09 Franz Holzinger <franz@ttproducts.de>
+    * Reduce the methods of the local class ExtensionManagementUtility to those needed by this extension.
+
 2020-03-31 Franz Holzinger <franz@ttproducts.de>
     * modifications to composer.json
     * Support for TYPO3 9.5
