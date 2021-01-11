@@ -1,5 +1,7 @@
 
 
+2020-01-11 Franz Holzinger <franz@ttproducts.de>
+    * Remove old deprecated TypoScript conditions
 
 2020-01-09 Franz Holzinger <franz@ttproducts.de>
     * Reduce the methods of the local class ExtensionManagementUtility to those needed by this extension.
