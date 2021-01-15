@@ -1,7 +1,8 @@
 
 
-2020-01-11 Franz Holzinger <franz@ttproducts.de>
-    * Remove old deprecated TypoScript conditions
+2020-01-15 Franz Holzinger <franz@ttproducts.de>
+    * bugfix in condition ext: extension key could not be extracted.
+    * bugfix: add the missing namespace to class ExtensionManagementUtility
 
 2020-01-09 Franz Holzinger <franz@ttproducts.de>
     * Reduce the methods of the local class ExtensionManagementUtility to those needed by this extension.

@@ -188,21 +188,21 @@ class ConditionMatcher extends \TYPO3\CMS\Frontend\Configuration\TypoScript\Cond
 
                     if (strlen($curValue)) {
                         $curValue = trim($curValue);
-                        $bExtIsLoaded = ExtensionManagementUtility::isLoaded($keyArray['1']);
-                        if (!strlen($keyArray['2']) && $bExtIsLoaded || ($keyArray['2'] == 'isLoaded' && intval($bExtIsLoaded) == $curValue)) {
+                        $bExtIsLoaded = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($keyParts['1']);
+                        if (!strlen($keyParts['2']) && $bExtIsLoaded || ($keyParts['2'] == 'isLoaded' && intval($bExtIsLoaded) == $curValue)) {
                             $result = true;
                             break;
                         } else if ($bExtIsLoaded) {
-                            $extInfoArray = ExtensionManagementUtility::getExtensionInfo($keyArray['1']);
+                            $extInfoArray = \JambageCom\Patch10011\Utility\ExtensionManagementUtility::getExtensionInfo($keyParts['1']);
                             if (is_array($extInfoArray) && count($extInfoArray)) {
                                 foreach ($extInfoArray as $k => $v) {
-                                    if (strpos($keyArray['2'], $k) === 0) {
-                                        $test = str_replace($k, $v, $keyArray['2']);
+                                    if (strpos($keyParts['2'], $k) === 0) {
+                                        $test = str_replace($k, $v, $keyParts['2']);
                                         switch ($k) {
                                             case 'version':
                                                 if (preg_match('/^\s*([^\s]*)\s*(!?=+|<=?|>=?)\s*([^\s]*)\s*$/', $test, $matches)) {
                                                     $result &=
-                                                        ExtensionManagementUtility::versionDifference(
+                                                        \JambageCom\Patch10011\Utility\ExtensionManagementUtility::versionDifference(
                                                             $matches['1'],
                                                             $curValue,
                                                             $matches['2'],
