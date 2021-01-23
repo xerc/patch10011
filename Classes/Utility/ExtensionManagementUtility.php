@@ -80,7 +80,6 @@ class ExtensionManagementUtility {
     {
         $result = '';
         $vDat = self::renderVersion($v);
-        debug ($vDat, '$vDat +++');
         if ($mode == '') {
             $result = sprintf("%02s.%02s.%02s", $vDat['version_main'], $vDat['version_sub'], $vDat['version_dev']);
         } else {

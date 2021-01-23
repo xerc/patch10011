@@ -1,4 +1,5 @@
 2021-01-23 Franz Holzinger <franz@ttproducts.de>
+    * Support for TYPO3 10.4
     * compatibility 6.2: replace deprecated method t3lib_div::intInRange by MathUtility::forceIntegerInRange.
 
 2021-01-15 Franz Holzinger <franz@ttproducts.de>
