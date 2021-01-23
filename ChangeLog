@@ -1,10 +1,14 @@
+2021-01-23 Franz Holzinger <franz@ttproducts.de>
+    * compatibility 6.2: replace deprecated method t3lib_div::intInRange by MathUtility::forceIntegerInRange.
 
+2021-01-15 Franz Holzinger <franz@ttproducts.de>
+    * Remove old deprecated TypoScript conditions
 
-2020-01-15 Franz Holzinger <franz@ttproducts.de>
+2021-01-15 Franz Holzinger <franz@ttproducts.de>
     * bugfix in condition ext: extension key could not be extracted.
     * bugfix: add the missing namespace to class ExtensionManagementUtility
 
-2020-01-09 Franz Holzinger <franz@ttproducts.de>
+2021-01-09 Franz Holzinger <franz@ttproducts.de>
     * Reduce the methods of the local class ExtensionManagementUtility to those needed by this extension.
 
 2020-03-31 Franz Holzinger <franz@ttproducts.de>

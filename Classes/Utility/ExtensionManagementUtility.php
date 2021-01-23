@@ -15,6 +15,7 @@ namespace JambageCom\Patch10011\Utility;
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 /**
 * Extension Management functions
@@ -28,57 +29,18 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 */
 class ExtensionManagementUtility {
     /**
-    * Evaluates a $leftValue based on an operator: "<", ">", "<=", ">=", "!=" or "="
-    *
-    * @param	string		$test: The value to compare with on the form [operator][number]. Eg. "< 123"
-    * @param	integer		$leftValue: The value on the left side
-    * @return	boolean		If $value is "50" and $test is "< 123" then it will return true.
-    */
-    public function testNumber ($test, $leftValue) {
-        $test = trim($test);
-
-        if (preg_match('/^(!?=+|<=?|>=?)\s*([^\s]*)\s*$/', $test, $matches)) {
-            $operator = $matches[1];
-            $rightValue = $matches[2];
-
-            switch ($operator) {
-                case '>=':
-                    return ($leftValue >= doubleval($rightValue));
-                    break;
-                case '<=':
-                    return ($leftValue <= doubleval($rightValue));
-                    break;
-                case '!=':
-                    return ($leftValue != doubleval($rightValue));
-                    break;
-                case '<':
-                    return ($leftValue < doubleval($rightValue));
-                    break;
-                case '>':
-                    return ($leftValue > doubleval($rightValue));
-                    break;
-                default:
-                    // nothing valid found except '=', use '='
-                    return ($leftValue == trim($rightValue));
-                    break;
-            }
-        }
-
-        return false;
-    }
-
-    /**
     * Parses the version number x.x.x and returns an array with the various parts.
     *
     * @param	string		Version code, x.x.x
     * @param	string		Increase version part: "main", "sub", "dev"
     * @return	string
     */
-    public function renderVersion ($v, $raise = '') {
+    static public function renderVersion ($v, $raise = '')
+    {
         $parts = GeneralUtility::intExplode('.', $v . '..');
-        $parts[0] = GeneralUtility::intInRange($parts[0], 0, 999);
-        $parts[1] = GeneralUtility::intInRange($parts[1], 0, 999);
-        $parts[2] = GeneralUtility::intInRange($parts[2], 0, 999);
+        $parts[0] = MathUtility::forceIntegerInRange($parts[0], 0, 999);
+        $parts[1] = MathUtility::forceIntegerInRange($parts[1], 0, 999);
+        $parts[2] = MathUtility::forceIntegerInRange($parts[2], 0, 999);
 
         switch((string)$raise) {
             case 'main':
@@ -95,17 +57,15 @@ class ExtensionManagementUtility {
                 break;
         }
 
-        $res = array();
-        $res['version'] = $parts[0] . '.' . $parts[1] . '.' . $parts[2];
-        $res['version_int'] = intval($parts[0] * 1000000 + $parts[1] * 1000 + $parts[2]);
-        $res['version_main'] = $parts[0];
-        $res['version_sub'] = $parts[1];
-        $res['version_dev'] = $parts[2];
+        $result = [];
+        $result['version'] = $parts[0] . '.' . $parts[1] . '.' . $parts[2];
+        $result['version_int'] = intval($parts[0] * 1000000 + $parts[1] * 1000 + $parts[2]);
+        $result['version_main'] = $parts[0];
+        $result['version_sub'] = $parts[1];
+        $result['version_dev'] = $parts[2];
 
-        return $res;
+        return $result;
     }
-
-
 
 
     /**
@@ -116,30 +76,19 @@ class ExtensionManagementUtility {
     * @return	string
     * @see renderVersion()
     */
-    public function makeVersion ($v, $mode)	{
+    static public function makeVersion ($v, $mode)
+    {
+        $result = '';
         $vDat = self::renderVersion($v);
-        return $vDat['version_' . $mode];
-    }
-
-    /**
-    * Evaluates differences in version numbers with three parts, x.x.x. Returns true if $v1 is greater than $v2
-    *
-    * @param	string		Version number 1
-    * @param	string		Version number 2
-    * @param	string		comparator string for the version compare
-    * @param	integer		Tolerance factor. For instance, set to 1000 to ignore difference in dev-version (third part)
-    * @return	boolean		True if version 1 is greater than version 2
-    */
-    public function versionDifference ($v1, $v2, $comp = '', $div = 1) {
-        $result = FALSE;
-        $leftValue = floor(self::makeVersion($v1, 'int') / $div);
-        $rightValue = floor(self::makeVersion($v2, 'int') / $div);
-        if (!$comp) {
-            $comp = '>';
+        debug ($vDat, '$vDat +++');
+        if ($mode == '') {
+            $result = sprintf("%02s.%02s.%02s", $vDat['version_main'], $vDat['version_sub'], $vDat['version_dev']);
+        } else {
+            $result = $vDat['version_' . $mode];
         }
-        $result = self::testNumber($comp . $rightValue, $leftValue);
         return $result;
     }
+
 
     /**
     * Gets information for an extension, eg. version and most-recently-edited-script
@@ -148,7 +97,8 @@ class ExtensionManagementUtility {
     * @param	string		predefined path ... needed if you have the extension in another place
     * @return	array		Information array (unless an error occured)
     */
-    public function getExtensionInfo ($extKey, $path = '') {
+    static public function getExtensionInfo ($extKey, $path = '')
+    {
         $result = '';
 
         if (!$path) {
@@ -160,11 +110,11 @@ class ExtensionManagementUtility {
 
             if (@is_file($file)) {
                 $_EXTKEY = $extKey;
-                $EM_CONF = array();
+                $EM_CONF = [];
                 include($file);
 
-                $eInfo = array();
-                $fieldArray = array(
+                $eInfo = [];
+                $fieldArray = [
                     'author',
                     'author_company',
                     'author_email',
@@ -175,7 +125,7 @@ class ExtensionManagementUtility {
                     'state',
                     'title',
                     'version'
-                );
+                ];
                 $extConf = $EM_CONF[$extKey];
 
                 if (isset($extConf) && is_array($extConf)) {
@@ -196,7 +146,7 @@ class ExtensionManagementUtility {
                         $eInfo['TYPO3_version'] = $extConf['TYPO3_version'];
                     }
                     $filesHash = unserialize($extConf['_md5_values_when_last_written']);
-                    $eInfo['manual'] = @is_file($path . '/doc/manual.sxw');
+                    $eInfo['manual'] = @is_file($path . '/Documentation/Index.rst') || @is_file($path . '/doc/manual.odt');
                     $result = $eInfo;
                 } else {
                     $result = 'ERROR: The array $EM_CONF is wrong in file: ' . $file;
