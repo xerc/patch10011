@@ -1,3 +1,6 @@
+2021-05-19 Franz Holzinger <franz@ttproducts.de>
+    * bugfix issue #1: composer requirements must use OR for TYPO3 version
+
 2021-01-23 Franz Holzinger <franz@ttproducts.de>
     * Support for TYPO3 10.4
     * compatibility 6.2: replace deprecated method t3lib_div::intInRange by MathUtility::forceIntegerInRange.
