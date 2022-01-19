@@ -30,7 +30,6 @@
     }
   },
   "replace": {
-    "jambagecom/patch10011": "self.version",
     "typo3-ter/patch10011": "self.version"
   },
   "extra": {
