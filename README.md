@@ -9,8 +9,13 @@ The documentation file `manual.odt` is available in the doc folder.
 
 ## Example
 ```
+[ext("tt_news")]
+  # Typoscript lines which will be active only if tt_news has been installed and loaded.
+[end]
+```
+```
 [ext("tt_news", "version") > "03.05.99"]
-  Typoscript lines which will be active only if tt_news in a version greater than 3.5.99 has been installed.
+  # Typoscript lines which will be active only if tt_news in a version greater than 3.5.99 has been installed and loaded.
 [end]
 ```
 

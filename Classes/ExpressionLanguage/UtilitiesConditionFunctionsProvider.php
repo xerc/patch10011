@@ -92,20 +92,20 @@ class UtilitiesConditionFunctionsProvider implements ExpressionFunctionProviderI
         return new ExpressionFunction('ext', function () {
             // Not implemented, we only use the evaluator
         }, function (...$arguments) {
-            $result = false;
-            $extensionKey = $arguments['1'];
-            $type = $arguments['2'];
+            $extensionKey = $arguments[1];
+            $type = isset($arguments[2]) ? $arguments[2] : null;
 
             $isLoaded = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($extensionKey);
             if ($isLoaded) {
+                if(null === $type) {
+                    return true;
+                }
                 $extInfoArray = \JambageCom\Patch10011\Utility\ExtensionManagementUtility::getExtensionInfo($extensionKey);
                 if ($type == 'version' || $type == 'title') {
-                    $result = \JambageCom\Patch10011\Utility\ExtensionManagementUtility::makeVersion($extInfoArray[$type], ''); 
+                    return \JambageCom\Patch10011\Utility\ExtensionManagementUtility::makeVersion($extInfoArray[$type], '');
                 }
             }
-            return $result;
+            return false;
         });
     }
 }
-
-
