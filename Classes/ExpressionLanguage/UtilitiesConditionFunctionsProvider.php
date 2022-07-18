@@ -92,6 +92,7 @@ class UtilitiesConditionFunctionsProvider implements ExpressionFunctionProviderI
         return new ExpressionFunction('ext', function () {
             // Not implemented, we only use the evaluator
         }, function (...$arguments) {
+            $result = false;
             $extensionKey = $arguments[1];
             $type = isset($arguments[2]) ? $arguments[2] : null;
 
@@ -102,10 +103,10 @@ class UtilitiesConditionFunctionsProvider implements ExpressionFunctionProviderI
                 }
                 $extInfoArray = \JambageCom\Patch10011\Utility\ExtensionManagementUtility::getExtensionInfo($extensionKey);
                 if ($type == 'version' || $type == 'title') {
-                    return \JambageCom\Patch10011\Utility\ExtensionManagementUtility::makeVersion($extInfoArray[$type], '');
+                    $result = \JambageCom\Patch10011\Utility\ExtensionManagementUtility::makeVersion($extInfoArray[$type], '');
                 }
             }
-            return false;
+            return $result;
         });
     }
 }
